@@ -4,16 +4,16 @@ name: Deploy static content to Pages
 on:
   # Runs every day at midnight Pacific Time (approx)
   schedule:
-    - cron: "0 8 * * *"  # midnight PT (approx) — runs at 08:00 UTC
+    - cron: "0 8 * * *"  # midnight PT
 
-  # Runs on pushes targeting the default branch
   push:
     branches: ['main']
 
-  # Allows manual execution
   workflow_dispatch:
 
-# Allow one concurrent deployment
+permissions:
+  contents: write  # REQUIRED to allow pushing to gh-pages
+
 concurrency:
   group: 'pages'
   cancel-in-progress: true
@@ -39,4 +39,6 @@ jobs:
         run: npm run build
 
       - name: Deploy
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # 👈 inject auth for gh-pages CLI
         run: npm run deploy
