@@ -2,13 +2,13 @@ name: Deploy static content to Pages
 
 on:
   schedule:
-    - cron: "0 8 * * *"  # Midnight PT (approx)
+    - cron: "0 8 * * *"
   push:
     branches: ['main']
   workflow_dispatch:
 
 permissions:
-  contents: write  # Required for pushing to gh-pages
+  contents: write
 
 concurrency:
   group: 'pages'
@@ -36,6 +36,7 @@ jobs:
 
       - name: Deploy
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}   # map built-in token → gh-pages
-        run: npm run deploy
-
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO="https://x-access-token:${GITHUB_TOKEN}@github.com/fravila08/netflix-clone.git"
+          npx gh-pages -d dist -r $REPO
