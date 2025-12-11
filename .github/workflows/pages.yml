@@ -1,28 +1,16 @@
-# Workflow to deploy Vite + React app to GitHub Pages
 name: Deploy Vite React App to GitHub Pages
 
 on:
   push:
-    branches: ['main']
+    branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
-
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # 1. Checkout repository
+      # 1. Checkout repo
       - name: Checkout repository
         uses: actions/checkout@v5
 
@@ -37,24 +25,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4. Build the app for production
+      # 4. Build the app
       - name: Build Vite app
-        run: |
-          npm run build
-          echo "Listing dist folder for debug:"
-          ls -R dist
+        run: npm run build
 
-      # 5. Setup GitHub Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      # 6. Upload the build artifacts
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v4
-        with:
-          path: ./dist
-
-      # 7. Deploy to GitHub Pages
+      # 5. Deploy to gh-pages branch
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: peaceiris/actions-gh-pages@v6
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          # optional: configure cname, user name, etc.
+          # user_name: 'GitHub Actions'
+          # user_email: 'actions@github.com'
