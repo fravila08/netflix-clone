@@ -1,13 +1,17 @@
 import { useState } from 'react'
-import './App.css'
 import { Outlet } from 'react-router-dom'
+import Container from 'react-bootstrap/Container';
+import NavBar from './components/NavBar';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Outlet/>
+      <NavBar/>
+      <Container>
+        <Outlet/>
+      </Container>
     </>
   )
 }
