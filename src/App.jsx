@@ -4,11 +4,11 @@ import Container from 'react-bootstrap/Container';
 import NavBar from './components/NavBar';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState({})
 
   return (
     <>
-      <NavBar/>
+      {user && <NavBar/>}
       <Container>
         <Outlet/>
       </Container>
