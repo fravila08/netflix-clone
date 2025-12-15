@@ -1,16 +1,18 @@
 import { useOutletContext } from "react-router-dom";
 import UserIcon from "../components/UserIcon";
+import CreateUserIcon from "../components/CreateUser";
 
 const UserSelectPage = () => {
-    const {existingUsers, setExistingUsers, setSelectedUser} = useOutletContext()
+    const {existingUsers, setSelectedUser} = useOutletContext()
 
     return (
         <>
-            <div style={{height:"100%", display:"flex", alignItems:"center"}}>
+            <div style={{height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
                 <div style={{display:"flex", justifyContent:"center", flexWrap:"wrap", gap:"2vmin"}}>
-                    {existingUsers.map((createdUser)=>(
-                        <UserIcon createdUser={createdUser} setSelectedUser={setSelectedUser}/>
+                    {existingUsers.map((createdUser, idx)=>(
+                        <UserIcon key={createdUser.id} createdUser={createdUser} setSelectedUser={setSelectedUser}/>
                     ))}
+                    {existingUsers.length < 4 ? <CreateUserIcon/> : null}
                 </div>
             </div>
         </>

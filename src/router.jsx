@@ -8,11 +8,14 @@ import FilmDetailPage from "./pages/FilmDetailPage";
 import FilterDisplayPage from "./pages/FilterDisplayPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
+import { LoadUsers } from "./utilities";
+
 const router = createHashRouter([
   {
     path: "/",
     element: <App />,
     errorElement: <ErrorPage />,
+    loader: LoadUsers,
     children: [
       {
         index: true,
