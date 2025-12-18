@@ -4,7 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link } from 'react-router-dom';
 
-function NavBar({setSelectedUser}) {
+function NavBar({handleLogOut}) {
   return (
     <>
       <Navbar bg="dark" data-bs-theme="dark">
@@ -14,7 +14,7 @@ function NavBar({setSelectedUser}) {
             <Nav.Link as={Link} to="/filter/movies">Movies</Nav.Link>
             <Nav.Link as={Link} to="/filter/tv">TV</Nav.Link>
           </Nav>
-          <Button variant='dark' onClick={()=>setSelectedUser(null)}>Log Out</Button>
+          <Button variant='dark' onClick={handleLogOut}>Log Out</Button>
         </Container>
       </Navbar>
     </>

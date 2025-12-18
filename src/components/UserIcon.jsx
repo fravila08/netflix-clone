@@ -1,7 +1,7 @@
 import Image from 'react-bootstrap/Image';
+import Trash from '../assets/trash.png'
 
-const UserIcon = ({createdUser, setSelectedUser}) => {
-    
+const UserIcon = ({createdUser, setSelectedUser, removeUsers}) => {
     return (
         <div style={{
             display:'flex', 
@@ -18,6 +18,16 @@ const UserIcon = ({createdUser, setSelectedUser}) => {
                 width: "140px",
                 height: "140px",
                 objectFit: "cover",
+            }}
+          />
+          <img src={Trash}
+            onClick={(e)=>removeUsers(e, createdUser.id)}
+            style={{
+              position:"absolute",
+              top:"0",
+              left:"0",
+              height:"15%",
+              width:"15%"
             }}
           />
           <h5 style={{

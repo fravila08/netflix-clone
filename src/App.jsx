@@ -4,10 +4,24 @@ import Container from 'react-bootstrap/Container';
 import NavBar from './components/NavBar';
 
 function App() {
-  const [selectedUser, setSelectedUser] = useState(null)
-  const [existingUsers, setExistingUsers] = useState(useLoaderData())
+  const userData = useLoaderData()
+  const [selectedUser, setSelectedUser] = useState(userData[1])
+  const [existingUsers, setExistingUsers] = useState(userData[0])
   const navigate = useNavigate()
   const location = useLocation()
+
+  const handleLogOut = () => {
+    localStorage.removeItem("selectedUser")
+    setSelectedUser(null)
+  }
+
+  // REMOVE USER OBJ FROM `existingUsers` STATE
+  const removeUsers = (event, userID) => {
+    event.stopPropagation()
+    setExistingUsers((prev) => {
+      return prev.filter((user)=>(user.id !== userID))
+    });
+  }
 
   // ADDS USER OBJ ONTO `existingUsers` STATE
   const saveUser = (userObj) => {
@@ -16,6 +30,13 @@ function App() {
       return [...prev, userObj];
     });
   };
+
+  // STORES `selectedUser` WITHIN LOCAL STORAGE
+  useEffect(()=>{
+    if (selectedUser){
+      localStorage.setItem("selectedUser", JSON.stringify(selectedUser))
+    }
+  }, [selectedUser])
 
   // WRITES USER DATA ONTO LOCAL STORAGE
   useEffect(() => {
@@ -37,14 +58,15 @@ function App() {
 
   return (
     <>
-      {selectedUser && <NavBar setSelectedUser={setSelectedUser}/>}
+      {selectedUser && <NavBar handleLogOut={handleLogOut}/>}
       <Container style={{height:"100%"}}>
         <Outlet 
           context={{
             selectedUser,
             setSelectedUser,
             existingUsers,
-            saveUser
+            saveUser,
+            removeUsers,
           }}
         />
       </Container>
